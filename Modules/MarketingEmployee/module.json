@@ -1,0 +1,13 @@
+{
+    "name": "MarketingEmployee",
+    "alias": "marketingemployee",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MarketingEmployee\\Providers\\MarketingEmployeeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,4 +1,5 @@
 {
     "SuperAdmin": true,
-    "Vendors": true
+    "Vendors": true,
+    "MarketingEmployee": true
 }
