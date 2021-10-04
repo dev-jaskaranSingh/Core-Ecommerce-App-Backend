@@ -14,47 +14,65 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Marketing
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-{{--                    <ul class="nav nav-treeview">--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="#" class="nav-link active">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Active Page</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="#" class="nav-link">--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Inactive Page</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Employees</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Orders</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Marketing Employees
-{{--                            <span class="right badge badge-danger">New</span>--}}
+                            Vendors
                         </p>
                     </a>
                 </li>
 
-{{--                <li class="nav-item">--}}
-{{--                    <a href="#" class="nav-link">--}}
-{{--                        <i class="nav-icon fas fa-out"></i>--}}
-{{--                        <p class="btn btn-danger btn-sm">--}}
-{{--                            Logout--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-box"></i>
+                        <p>
+                            Apps List
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Plans
+                        </p>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
