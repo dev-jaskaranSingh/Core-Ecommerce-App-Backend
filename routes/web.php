@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashboard');
+Route::group(['middleware' =>['auth:sanctum', 'verified']],function(){
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    });
 });
+
 
 Auth::routes();
 
