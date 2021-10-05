@@ -14,7 +14,7 @@ use Modules\MarketingEmployee\Http\Controllers\MarketingLeadController;
 |
 */
 Route::group(['prefix' => '/marketingemployee'], function () {
+    Route::get('/business-types', 'MarketingEmployeeController@businessTypes')->name('business-types');
     Route::post('/login', [MarketingEmployeeController::class, 'login'])->name('login');
     Route::post('/save-lead', [MarketingLeadController::class, 'saveLead'])->name('saveOrder');
-    Route::get('/business-types', MarketingEmployeeController::class,'businessTypes')->name('businessTypes');
 });
