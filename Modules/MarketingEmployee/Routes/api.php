@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\MarketingEmployee\Http\Controllers\MarketingEmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/marketingemployee', function (Request $request) {
-    return $request->user();
+Route::group(['prefix'=> '/marketingemployee'],function(){
+    Route::post('/login', [MarketingEmployeeController::class, 'login'])->name('login');
 });

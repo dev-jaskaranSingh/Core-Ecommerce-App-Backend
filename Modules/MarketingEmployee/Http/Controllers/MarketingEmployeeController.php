@@ -5,6 +5,8 @@ namespace Modules\MarketingEmployee\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Modules\MarketingEmployee\Entities\MarketingEmployee;
 
 class MarketingEmployeeController extends Controller
 {
@@ -14,7 +16,8 @@ class MarketingEmployeeController extends Controller
      */
     public function index()
     {
-        return view('marketingemployee::index');
+        $empoyeesData = MarketingEmployee::get();
+        return view('marketingemployee::index',['employees' => $empoyeesData]);
     }
 
     /**
@@ -33,7 +36,16 @@ class MarketingEmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'name' => 'required',
+           'mobile' => 'required',
+           'password' => 'required',
+        ]);
+        $response = MarketingEmployee::create($request->all());
+        if($response){
+            return redirect()->back()->with('message', 'Employee Saved!');
+        }
+        return redirect()->back()->with('message', 'Failed!');
     }
 
     /**
@@ -53,6 +65,7 @@ class MarketingEmployeeController extends Controller
      */
     public function edit($id)
     {
+        dd($id);
         return view('marketingemployee::edit');
     }
 
@@ -64,7 +77,7 @@ class MarketingEmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all(),$id);
     }
 
     /**
@@ -72,8 +85,28 @@ class MarketingEmployeeController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(MarketingEmployee $employee)
     {
-        //
+        if($employee->delete()){
+            return redirect()->back()->with('message', 'Employee Successfully Deleted!');
+        }
+        return redirect()->back()->with('message', 'Failed!');
+    }
+
+    public function login(Request $request){
+        if(!$request->has('mobile') || !$request->has('mobile')){
+            return response()->json(['status'=>true,'message' =>'Required fields missing !'],200);
+        }
+        $user = MarketingEmployee::where(['mobile' => $request->mobile])->first();
+
+        if(is_null($user)) {
+            return response()->json(['status' => false,'message' => 'User not found !']);
+        }
+
+        if(Hash::check($request->password, $user->password)){
+            return response()->json(['status' => true,'message' => 'User found !','user' => $user]);
+        }else{
+            return response()->json(['status' => false,'message' => 'Wrong mobile or password !']);
+        }
     }
 }
