@@ -20,7 +20,7 @@ class MarketingEmployeeController extends Controller
     public function index()
     {
         $employeesData = MarketingEmployee::get();
-        return view('marketingemployee::index', ['employees' => $employeesData]);
+        return view('marketingemployee::.employee.index', ['employees' => $employeesData]);
     }
 
     /**
@@ -28,7 +28,7 @@ class MarketingEmployeeController extends Controller
      */
     public function create()
     {
-        return view('marketingemployee::create');
+        return view('marketingemployee::.employee.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class MarketingEmployeeController extends Controller
      */
     public function edit(MarketingEmployee $employee)
     {
-        return view('marketingemployee::edit', ['employee' => $employee]);
+        return view('marketingemployee::.employee.edit', ['employee' => $employee]);
     }
 
     /**
@@ -122,6 +122,6 @@ class MarketingEmployeeController extends Controller
             ['id' => 3, 'title' => 'Dairy Products'],
             ['id' => 4, 'title' => 'Fast Foods']
         ];
-        return response()->json(['status' => false, 'business' => $data]);
+        return response()->json(['status' => true, 'business' => $data]);
     }
 }
