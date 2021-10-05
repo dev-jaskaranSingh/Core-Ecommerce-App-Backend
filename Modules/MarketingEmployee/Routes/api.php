@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Modules\MarketingEmployee\Http\Controllers\MarketingEmployeeController;
+use Modules\MarketingEmployee\Http\Controllers\MarketingLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,7 @@ use Modules\MarketingEmployee\Http\Controllers\MarketingEmployeeController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['prefix'=> '/marketingemployee'],function(){
+Route::group(['prefix' => '/marketingemployee'], function () {
     Route::post('/login', [MarketingEmployeeController::class, 'login'])->name('login');
+    Route::post('/save-lead', [MarketingLeadController::class, 'saveLead'])->name('saveOrder');
 });

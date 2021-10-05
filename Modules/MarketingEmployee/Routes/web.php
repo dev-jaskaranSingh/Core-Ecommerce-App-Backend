@@ -16,5 +16,6 @@ Route::prefix('marketingemployee')->group(function() {
     Route::get('/create', 'MarketingEmployeeController@create')->name('employee-create');
     Route::get('/edit/{employee}', 'MarketingEmployeeController@edit')->name('employee-edit');
     Route::post('/store', 'MarketingEmployeeController@store')->name('employee-store');
+    Route::post('/update/{employee}', 'MarketingEmployeeController@update')->name('employee-update');
     Route::get('/delete/{employee}', 'MarketingEmployeeController@destroy')->name('employee-delete');
 });

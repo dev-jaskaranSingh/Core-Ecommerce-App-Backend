@@ -2,7 +2,11 @@
 
 namespace Modules\MarketingEmployee\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -11,18 +15,16 @@ use Modules\MarketingEmployee\Entities\MarketingEmployee;
 class MarketingEmployeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $empoyeesData = MarketingEmployee::get();
-        return view('marketingemployee::index',['employees' => $empoyeesData]);
+        $employeesData = MarketingEmployee::get();
+        return view('marketingemployee::index', ['employees' => $employeesData]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -30,83 +32,81 @@ class MarketingEmployeeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
      * @param Request $request
-     * @return Renderable
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-           'name' => 'required',
-           'mobile' => 'required',
-           'password' => 'required',
+            'name' => 'required',
+            'mobile' => 'required | integer',
+            'password' => 'required | min:6 ',
         ]);
+
         $response = MarketingEmployee::create($request->all());
-        if($response){
+        if ($response) {
             return redirect()->back()->with('message', 'Employee Saved!');
         }
         return redirect()->back()->with('message', 'Failed!');
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param MarketingEmployee $employee
+     * @return Application|Factory|View
      */
-    public function show($id)
+    public function edit(MarketingEmployee $employee)
     {
-        return view('marketingemployee::show');
+        return view('marketingemployee::edit', ['employee' => $employee]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        dd($id);
-        return view('marketingemployee::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @param MarketingEmployee $employee
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
-    {
-        dd($request->all(),$id);
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy(MarketingEmployee $employee)
+    public function update(Request $request, MarketingEmployee $employee): RedirectResponse
     {
-        if($employee->delete()){
-            return redirect()->back()->with('message', 'Employee Successfully Deleted!');
-        }
+        $request->validate([
+            'name' => 'required',
+            'mobile' => 'required | integer',
+            'password' => 'required | min:6',
+        ]);
+        $response = $employee->update($request->all());
+
+        if ($response) return redirect()->back()->with('message', 'Employee Updated Successfully!');
         return redirect()->back()->with('message', 'Failed!');
     }
 
-    public function login(Request $request){
-        if(!$request->has('mobile') || !$request->has('mobile')){
-            return response()->json(['status'=>true,'message' =>'Required fields missing !'],200);
+    /**
+     * @param MarketingEmployee $employee
+     * @return RedirectResponse
+     */
+    public function destroy(MarketingEmployee $employee): RedirectResponse
+    {
+        if ($employee->delete()) return redirect()->back()->with('message', 'Employee Successfully Deleted!');
+        return redirect()->back()->with('message', 'Failed!');
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
+    {
+        if (!$request->has('mobile') || !$request->has('mobile')) {
+            return response()->json(['status' => true, 'message' => 'Required fields missing !'], 200);
         }
         $user = MarketingEmployee::where(['mobile' => $request->mobile])->first();
 
-        if(is_null($user)) {
-            return response()->json(['status' => false,'message' => 'User not found !']);
+        if (is_null($user)) {
+            return response()->json(['status' => false, 'message' => 'User not found !']);
         }
 
-        if(Hash::check($request->password, $user->password)){
-            return response()->json(['status' => true,'message' => 'User found !','user' => $user]);
-        }else{
-            return response()->json(['status' => false,'message' => 'Wrong mobile or password !']);
+        if (Hash::check($request->password, $user->password)) {
+            return response()->json(['status' => true, 'message' => 'User found !', 'user' => $user]);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Wrong mobile or password !']);
         }
     }
 }
