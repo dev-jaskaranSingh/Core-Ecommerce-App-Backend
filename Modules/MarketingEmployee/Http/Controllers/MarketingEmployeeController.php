@@ -109,4 +109,15 @@ class MarketingEmployeeController extends Controller
             return response()->json(['status' => false, 'message' => 'Wrong mobile or password !']);
         }
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function businessTypes(): JsonResponse
+    {
+        $data = [
+            0 => 'Grocery', 1 => 'Vegetables', 2 => 'Fruits', 3 => 'Dairy Products', 4 => 'Fast Foods'
+        ];
+        return response()->json(['status' => false, 'business' => $data]);
+    }
 }
