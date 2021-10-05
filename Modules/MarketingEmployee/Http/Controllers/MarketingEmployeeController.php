@@ -113,7 +113,11 @@ class MarketingEmployeeController extends Controller
     public function businessTypes()
     {
         $data = [
-            0 => 'Grocery', 1 => 'Vegetables', 2 => 'Fruits', 3 => 'Dairy Products', 4 => 'Fast Foods'
+            ['id' => 0, 'title' => 'Grocery'],
+            [ 'id' => 1,'title' => 'Vegetables'],
+            ['id' => 2, 'title' => 'Fruits'],
+            ['id' => 3, 'title' => 'Dairy Products'],
+            ['id' => 4, 'title' => 'Fast Foods']
         ];
         return response()->json(['status' => false, 'business' => $data]);
     }
