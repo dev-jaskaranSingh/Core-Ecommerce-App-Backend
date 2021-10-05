@@ -19,7 +19,4 @@ Route::prefix('marketingemployee')->group(function() {
     Route::post('/store', 'MarketingEmployeeController@store')->name('employee-store');
     Route::post('/update/{employee}', 'MarketingEmployeeController@update')->name('employee-update');
     Route::get('/delete/{employee}', 'MarketingEmployeeController@destroy')->name('employee-delete');
-
-    //Leads
-    Route::get('/business-types', 'MarketingEmployeeController@businessTypes')->name('businessTypes');
 });
