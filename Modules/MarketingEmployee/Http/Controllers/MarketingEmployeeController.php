@@ -110,11 +110,14 @@ class MarketingEmployeeController extends Controller
         }
     }
 
-    public function businessTypes()
+    /**
+     * @return JsonResponse
+     */
+    public function businessTypes(): JsonResponse
     {
         $data = [
             ['id' => 0, 'title' => 'Grocery'],
-            [ 'id' => 1,'title' => 'Vegetables'],
+            ['id' => 1, 'title' => 'Vegetables'],
             ['id' => 2, 'title' => 'Fruits'],
             ['id' => 3, 'title' => 'Dairy Products'],
             ['id' => 4, 'title' => 'Fast Foods']

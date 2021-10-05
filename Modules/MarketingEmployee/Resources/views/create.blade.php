@@ -40,52 +40,55 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <lable>Name*</lable>
-                                        <div class="form-group" @error('name') has-error @enderror">
-                                        <input class="form-control" type="text" name="name"/>
-                                        @error('name')
-                                        <span class="text-danger" role="alert">
+                                        <div class="form-group">
+                                            <input class="form-control @error('name') is-invalid @enderror" type="text"
+                                                   name="name"/>
+                                            @error('name')
+                                            <span class="text-danger" role="alert">
                                                             <strong>{{ $message }}</strong>
                                                         </span>
-                                        @enderror
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <lable>Mobile*</lable>
+                                        <div class="form-group">
+                                            <input class="form-control @error('mobile') is-invalid @enderror"
+                                                   type="text" name="mobile"/>
+                                            @error('mobile')
+                                            <span class="text-danger" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <lable>Password*</lable>
+                                        <div class="form-group">
+                                            <input class="form-control @error('password') is-invalid @enderror"
+                                                   type="text" name="password"/>
+                                            @error('password')
+                                            <span class="text-danger" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <input type="submit" class="btn btn-success btn-sm mt-4" value="Save">
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <lable>Mobile*</lable>
-                                    <div class="form-group" @error('mobile') has-error @enderror">
-                                    <input class="form-control" type="text" name="mobile"/>
-                                    @error('mobile')
-                                    <span class="text-danger" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                    @enderror
-                                </div>
+                            </form>
                         </div>
-
-                        <div class="col-md-6">
-                            <lable>Password*</lable>
-                            <div class="form-group" @error('password') has-error @enderror">
-                            <input class="form-control" type="text" name="password"/>
-                            @error('password')
-                            <span class="text-danger" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <input type="submit" class="btn btn-success btn-sm mt-4" value="Save">
                     </div>
                 </div>
-                </form>
             </div>
+            <!-- /.col-md-6 -->
         </div>
-    </div>
-    </div>
-    <!-- /.col-md-6 -->
-    </div>
-    <!-- /.row -->
+        <!-- /.row -->
     </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
