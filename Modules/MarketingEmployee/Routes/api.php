@@ -17,4 +17,5 @@ Route::group(['prefix' => '/marketingemployee'], function () {
     Route::get('/business-types', 'MarketingEmployeeController@businessTypes')->name('business-types');
     Route::post('/login', [MarketingEmployeeController::class, 'login'])->name('login');
     Route::post('/save-lead', [MarketingLeadController::class, 'saveLead'])->name('saveOrder');
+
 });
