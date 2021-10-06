@@ -50,10 +50,13 @@ class MarketingLeadController extends Controller
      * @param $employee
      * @return JsonResponse
      */
-    public function getEmployeeLeads($employee): JsonResponse
+    public function getEmployeeLeads($employee_id = null): JsonResponse
     {
-        $allLeadsCount = MarketingLead::where('employee_id', $employee);
+        if (is_null($employee_id)) return response()->json(['status' => false, 'message' => 'required fields missing']);
+
+        $allLeadsCount = MarketingLead::where('employee_id', $employee_id);
         $todayLeadsCount = $allLeadsCount->whereDate('created_at', Carbon::today())->get();
+
         return response()->json(['status' => true, 'allLeads' => $allLeadsCount->get(), 'todayLeads' => $todayLeadsCount]);
     }
 
@@ -61,16 +64,26 @@ class MarketingLeadController extends Controller
      * @param $employee
      * @return JsonResponse
      */
-    public function getEmployeeLeadsCount($employee): JsonResponse
+    public function getEmployeeLeadsCount($employee_id = null): JsonResponse
     {
-        $allLeadsCount = MarketingLead::where('employee_id', $employee);
+        if (is_null($employee_id)) return response()->json(['status' => false, 'message' => 'required fields missing']);
+
+        $allLeadsCount = MarketingLead::where('employee_id', $employee_id);
         $todayLeadsCount = $allLeadsCount->whereDate('created_at', Carbon::today())->count();
+
         return response()->json(['status' => true, 'allLeadsCount' => $allLeadsCount->count(), 'todayLeadsCount' => $todayLeadsCount]);
     }
 
-    public function getEmployeeByMobile($mobile)
+    /**
+     * @param null $mobile
+     * @return JsonResponse
+     */
+    public function getEmployeeByMobile($mobile = null): JsonResponse
     {
-        MarketingLead::where('mobile', $mobile)->get()->dd();
-        dd($mobile);
+        if (is_null($mobile)) return response()->json(['status' => false, 'message' => 'required fields missing']);
+
+        $isLeadExist = MarketingLead::where('mobile', $mobile)->first();
+
+        return response()->json(['status' => true, 'isLeadExist' => $isLeadExist == 1]);
     }
 }
