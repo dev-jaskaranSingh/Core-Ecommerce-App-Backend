@@ -2,6 +2,7 @@
 
 namespace Modules\MarketingEmployee\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -43,5 +44,33 @@ class MarketingLeadController extends Controller
         } catch (Exception $exception) {
             dd($exception->getMessage());
         }
+    }
+
+    /**
+     * @param $employee
+     * @return JsonResponse
+     */
+    public function getEmployeeLeads($employee): JsonResponse
+    {
+        $allLeadsCount = MarketingLead::where('employee_id', $employee);
+        $todayLeadsCount = $allLeadsCount->whereDate('created_at', Carbon::today())->get();
+        return response()->json(['status' => true, 'allLeads' => $allLeadsCount->get(), 'todayLeads' => $todayLeadsCount]);
+    }
+
+    /**
+     * @param $employee
+     * @return JsonResponse
+     */
+    public function getEmployeeLeadsCount($employee): JsonResponse
+    {
+        $allLeadsCount = MarketingLead::where('employee_id', $employee);
+        $todayLeadsCount = $allLeadsCount->whereDate('created_at', Carbon::today())->count();
+        return response()->json(['status' => true, 'allLeadsCount' => $allLeadsCount->count(), 'todayLeadsCount' => $todayLeadsCount]);
+    }
+
+    public function getEmployeeByMobile($mobile)
+    {
+        MarketingLead::where('mobile', $mobile)->get()->dd();
+        dd($mobile);
     }
 }
