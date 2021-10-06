@@ -2,10 +2,10 @@
 
 namespace Modules\MarketingEmployee\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\MarketingEmployee\Database\factories\MarketingLeadFactory;
-
 class MarketingLead extends Model
 {
     use HasFactory;
@@ -15,5 +15,9 @@ class MarketingLead extends Model
     protected static function newFactory()
     {
         return MarketingLeadFactory::new();
+    }
+
+    public function getCreatedAtAttribute($value){
+        return Carbon::parse($value)->format('d-m-Y');
     }
 }

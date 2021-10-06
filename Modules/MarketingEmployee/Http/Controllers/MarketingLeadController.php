@@ -54,10 +54,11 @@ class MarketingLeadController extends Controller
     {
         if (is_null($employee_id)) return response()->json(['status' => false, 'message' => 'required fields missing']);
 
+        $selectedFields = ['id','business_name','business_address','lead_status','created_at'];
         $allLeadsCount = MarketingLead::where('employee_id', $employee_id);
-        $todayLeadsCount = $allLeadsCount->whereDate('created_at', Carbon::today())->get();
+        $todayLeadsCount = $allLeadsCount->whereDate('created_at', Carbon::today())->get($selectedFields);
 
-        return response()->json(['status' => true, 'allLeads' => $allLeadsCount->get(), 'todayLeads' => $todayLeadsCount]);
+        return response()->json(['status' => true, 'allLeads' => $allLeadsCount->get($selectedFields), 'todayLeads' => $todayLeadsCount]);
     }
 
     /**
