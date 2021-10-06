@@ -82,8 +82,8 @@ class MarketingLeadController extends Controller
     {
         if (is_null($mobile)) return response()->json(['status' => false, 'message' => 'required fields missing']);
 
-        $isLeadExist = MarketingLead::where('mobile', $mobile)->first();
+        $isLeadExist = MarketingLead::where('mobile', $mobile)->count();
 
-        return response()->json(['status' => true, 'isLeadExist' => $isLeadExist == 1]);
+        return response()->json(['status' => true, 'isLeadExist' => $isLeadExist > 0]);
     }
 }
