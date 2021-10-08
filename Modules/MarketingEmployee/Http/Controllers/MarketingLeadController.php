@@ -3,6 +3,9 @@
 namespace Modules\MarketingEmployee\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -47,26 +50,26 @@ class MarketingLeadController extends Controller
     }
 
     /**
-     * @param $employee
+     * @param null $employee_id
      * @return JsonResponse
      */
     public function getEmployeeLeads($employee_id = null): JsonResponse
     {
         if (is_null($employee_id)) return response()->json(['status' => false, 'message' => 'required fields missing']);
 
-        $selectedFields = ['id','business_name','business_address','lead_status','created_at'];
+        $selectedFields = ['id', 'business_name', 'business_address', 'lead_status', 'created_at'];
 
-        $allLeadsCount = MarketingLead::where('employee_id', $employee_id)->get($selectedFields);
+        $allLeadsCount = MarketingLead::where('employee_id', $employee_id)->latest()->get($selectedFields);
 
         $todayLeadsCount = MarketingLead::where('employee_id', $employee_id)
-                            ->whereDate('created_at', Carbon::today())
-                            ->get($selectedFields);
+            ->whereDate('created_at', Carbon::today())
+            ->latest()->get($selectedFields);
 
         return response()->json(['status' => true, 'allLeads' => $allLeadsCount, 'todayLeads' => $todayLeadsCount]);
     }
 
     /**
-     * @param $employee
+     * @param null $employee_id
      * @return JsonResponse
      */
     public function getEmployeeLeadsCount($employee_id = null): JsonResponse
@@ -75,7 +78,7 @@ class MarketingLeadController extends Controller
 
         $allLeadsCount = MarketingLead::where('employee_id', $employee_id)->count();
         $todayLeadsCount = MarketingLead::where('employee_id', $employee_id)
-                            ->whereDate('created_at', Carbon::today())->count();
+            ->whereDate('created_at', Carbon::today())->count();
 
         return response()->json(['status' => true, 'allLeadsCount' => $allLeadsCount, 'todayLeadsCount' => $todayLeadsCount]);
     }
@@ -91,5 +94,14 @@ class MarketingLeadController extends Controller
         $isLeadExist = MarketingLead::where('mobile', $mobile)->count();
 
         return response()->json(['status' => true, 'isLeadExist' => $isLeadExist > 0]);
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function leadsListIndex()
+    {
+        $marketingLeads = MarketingLead::with('lead_employee')->latest()->get();
+        return view('marketingemployee::leads.index', compact('marketingLeads'));
     }
 }

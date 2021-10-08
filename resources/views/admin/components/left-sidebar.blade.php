@@ -38,9 +38,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('leads.index')  }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Orders</p>
+                                <p>Leads</p>
                             </a>
                         </li>
                     </ul>
