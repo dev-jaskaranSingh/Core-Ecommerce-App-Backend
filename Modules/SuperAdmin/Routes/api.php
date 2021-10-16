@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/superadmin', function (Request $request) {
-    return $request->user();
+Route::prefix('super-admin')->group(function() {
+    
+    //Vendor APP API
+    Route::post('/vendor-login', 'SuperAdminAuthController@vendorLogin')->name('vendor-login');
+
 });
