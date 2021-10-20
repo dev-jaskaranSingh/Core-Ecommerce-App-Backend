@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/vendors', function (Request $request) {
-    return $request->user();
-});
+    Route::prefix('vendor-api')->group(function() {
+        
+        //Product Category APIs
+        Route::post('save/category'     ,   'ProductCategoryController@SaveCategory')->name('vendor-save-category');
+        Route::get('get/category/list'  ,   'ProductCategoryController@getCategoryList')->name('get-category-list');
+        Route::get('get/category/{category_id}'  ,   'ProductCategoryController@getCategoryById')->name('get-category');
+        
+        // Product Variant APIs
+        Route::get('get/product-variants'  ,   'ProductVariantController@getProductVariants')->name('get-product-variants');
+    
+    });

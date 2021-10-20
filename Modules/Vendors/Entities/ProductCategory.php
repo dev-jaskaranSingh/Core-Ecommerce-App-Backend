@@ -11,7 +11,8 @@ class ProductCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $table = 'product_categories';
+    protected $fillable = ['title','status','units','description'];
 
     protected static function newFactory()
     {

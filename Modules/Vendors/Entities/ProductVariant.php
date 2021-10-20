@@ -11,7 +11,8 @@ class ProductVariant extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $table = 'product_variants';
+    protected $fillable = ['title','status'];
 
     protected static function newFactory()
     {

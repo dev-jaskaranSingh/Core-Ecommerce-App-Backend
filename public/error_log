@@ -1,0 +1,1 @@
+[20-Oct-2021 05:28:25 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home2/ripunaae/core-ecommerce-app.ripungupta.com/Modules/Vendors/Http/Controllers/ProductCategoryController.php on line 29
