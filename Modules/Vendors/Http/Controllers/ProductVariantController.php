@@ -28,8 +28,8 @@ class ProductVariantController extends Controller
     public function getProductVariants(){
  
         $variants = $this->productVariantModal->get();
-        $variantsArray = $this->productVariantModal->get(['label'])->map(function($item){
-            return $item->label;
+        $variantsArray = $this->productVariantModal->get(['title'])->map(function($item){
+            return $item->title;
         })->toArray();
  
         return response()->json(['status' => true , 'dataArray' => array_values($variantsArray),'data' => $variants] , 200);

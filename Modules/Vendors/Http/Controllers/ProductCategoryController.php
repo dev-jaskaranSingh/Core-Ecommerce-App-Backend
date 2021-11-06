@@ -6,11 +6,13 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Vendors\Entities\ProductCategory;
+use Modules\Vendors\Entities\ProductVariant;
+use Modules\Vendors\Entities\ProductCategoryVariant;
 
 class ProductCategoryController extends Controller
 {
 
-    protected $DB, $productCategoryModal;
+    protected $DB, $productCategoryModal,$productVariantModal,$productCategoryVariantModal;
 
     public function __construct(Request $request)
     {
@@ -20,9 +22,15 @@ class ProductCategoryController extends Controller
         }
         
         $this->DB = $request->header('X-DB-Connection');
+        
         $this->productCategoryModal = new ProductCategory;
         $this->productCategoryModal->setConnection($this->DB);
 
+        $this->productVariantModal = new ProductVariant;
+        $this->productVariantModal->setConnection($this->DB);
+        
+        $this->productCategoryVariantModal = new ProductCategoryVariant;
+        $this->productCategoryVariantModal->setConnection($this->DB);
     }
 
     public function SaveCategory(Request $request){
@@ -33,8 +41,31 @@ class ProductCategoryController extends Controller
             'units'         => $request->units,
             'status'        => 1
         ];
-        
+
         $isCategorySaved = $this->productCategoryModal->create($insertArray);
+
+        $receivedUnitsArray = json_decode($request->units, true);
+        $unitsArray= $this->productVariantModal->get()->map(function($item){
+            return $item->title;
+        })->toArray();
+
+
+        collect($receivedUnitsArray)->map(function($item,$index) use($unitsArray){
+            if(!in_array($item,$unitsArray)){
+                $this->productVariantModal->create([
+                    'title' => $item
+                ]);
+            }
+        });
+
+
+        collect($receivedUnitsArray)->map(function($item) use ($isCategorySaved){
+            $variant = $this->productVariantModal->where('title', $item)->first();
+            $this->productCategoryVariantModal->create([
+                'variant_id' => $variant->id,
+                'category_id' => $isCategorySaved->id
+            ]);
+        });
 
         if($isCategorySaved){
             return response()->json(['status' => true , 'message' => 'Data saved successfully.'] , 200);
@@ -49,7 +80,19 @@ class ProductCategoryController extends Controller
     }
 
     public function getCategoryById($category_id){
-        $units = json_decode($this->productCategoryModal->find($category_id)->units, true);
-        return response()->json(['status' => true , 'data' => $units] , 200);    
+
+        // $categoryData = $this->productCategoryModal->where('id',$category_id)->with('variants.variant_rel')
+        // ->get()->map(function($item){
+        //     $item->categoryVariants = $item->variants->map(function($dd){
+        //         return $dd->variant_rel;
+        //     });
+        //     unset($item->variants);
+        //     return $item;   
+        // });
+
+
+        $categoryData = $this->productCategoryModal->where('id',$category_id)->with('variants')
+        ->get();
+        return response()->json(['status' => true , 'data' => $categoryData] , 200);    
     }
 }

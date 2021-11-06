@@ -44,6 +44,7 @@
                                     <th>Lead Date</th>
                                     <th>Employee</th>
                                     <th>Delivery Status</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -57,6 +58,7 @@
                                     <th>Lead Date</th>
                                     <th>Employee</th>
                                     <th>Delivery Status</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -71,6 +73,21 @@
                                         <td>{{ $lead->created_at }}</td>
                                         <td>{{ $lead->lead_employee->name }}</td>
                                         <td>{{ $lead->delivery_status }}</td>
+                                        <td width="150px">
+                                            <a href="#" class="btn btn-primary btn-sm text-light">
+                                                Edit
+                                            </a> |
+                                            <a href="#"
+                                                onclick="return confirm('Are sure want to approve ?')"
+                                                class="btn btn-success btn-sm text-light">
+                                                Approve
+                                            </a> | 
+                                            <a href="#"
+                                                onclick="return confirm('Are sure want to delete ?')"
+                                                class="btn btn-danger btn-sm">
+                                                Delete
+                                            </a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
