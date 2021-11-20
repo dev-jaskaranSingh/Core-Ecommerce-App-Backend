@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\MarketingEmployee\Entities\MarketingLead;
 use PHPUnit\Exception;
-
+use DB;
 class MarketingLeadController extends Controller
 {
     /**
@@ -101,7 +101,35 @@ class MarketingLeadController extends Controller
      */
     public function leadsListIndex()
     {
-        $marketingLeads = MarketingLead::with('lead_employee')->latest()->get();
+        $marketingLeads = MarketingLead::with('lead_employee:id,name,mobile')->latest()
+            ->get()->except(['updated_at']);
         return view('marketingemployee::leads.index', compact('marketingLeads'));
     }
+
+    //create function to delete lead
+    public function deleteLead(Request $request)
+    {
+        $id = $request->id;
+        $delete = MarketingLead::where('id', $id)->delete();
+        if ($delete) {
+            return response()->json(['status' => true, 'message' => 'Lead deleted successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Failed to delete lead']);
+    }
+
+    public function approveLead(Request $request)
+    {
+        $requestArray = json_decode($request->leadDetails,true);
+        $businessName = $requestArray['business_name'];
+        $businessId  = $requestArray['id'];
+
+        $dbName = strtolower($businessName.'_'.$businessId);
+        DB::statement('CREATE DATABASE '.$dbName);
+    }
+
+    public function editLead(MarketingLead $lead)
+    {
+        dd($lead);
+    }
+
 }

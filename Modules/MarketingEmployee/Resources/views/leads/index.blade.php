@@ -74,19 +74,21 @@
                                         <td>{{ $lead->lead_employee->name }}</td>
                                         <td>{{ $lead->delivery_status }}</td>
                                         <td width="150px">
-                                            <a href="#" class="btn btn-primary btn-sm text-light">
+
+                                            <a href="{{ route('leads.edit',$lead->id) }}"
+                                               class="btn btn-primary btn-sm text-light">
                                                 Edit
                                             </a> |
-                                            <a href="#"
-                                                onclick="return confirm('Are sure want to approve ?')"
-                                                class="btn btn-success btn-sm text-light">
-                                                Approve
-                                            </a> | 
-                                            <a href="#"
-                                                onclick="return confirm('Are sure want to delete ?')"
-                                                class="btn btn-danger btn-sm">
-                                                Delete
-                                            </a>
+
+                                            {{ Form::open(['route' => 'leads.approve', 'method' => 'POST', 'class' => 'd-inline']) }}
+                                            {{ Form::hidden('leadDetails', json_encode($lead,true)) }}
+                                            {{ Form::submit('Approve', ['class' => 'btn btn-success btn-sm text-light','onclick' => 'confirm("Are sure want to approve ?")']) }}
+                                            {{ Form::close() }} |
+
+                                            {{ Form::open(['route' => 'leads.destroy', 'method' => 'DELETE', 'class' => 'd-inline']) }}
+                                            {{ Form::hidden('id', $lead->id) }}
+                                            {{ Form::submit('Delete', ['class' => 'btn btn-danger btn-sm text-light','onclick' => 'confirm("Are you sure want to delete ?")']) }}
+                                            {{ Form::close() }}
                                         </td>
                                     </tr>
                                 @empty
