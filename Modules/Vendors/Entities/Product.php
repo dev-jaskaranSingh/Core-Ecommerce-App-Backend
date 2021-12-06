@@ -11,7 +11,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = ['images', 'title', 'sale_price', 'purchase_price', 'description', 'unit', 'variant_id', 'category_id', 'status'];
 
     protected static function newFactory()
     {
@@ -43,4 +43,8 @@ class Product extends Model
         return $this->belongsTo(ProductStatus::class, 'product_status_id', 'id');
     }
 
+    public function getImagesAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }

@@ -13,7 +13,7 @@ class ProductCategory extends Model
     use HasFactory;
 
     protected $table = 'product_categories';
-    protected $fillable = ['title','status','units','description'];
+    protected $fillable = ['title', 'parent_id', 'status', 'units', 'description'];
 
     protected static function newFactory()
     {
@@ -22,11 +22,20 @@ class ProductCategory extends Model
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'category_id', 'id');
+        return $this->hasMany(Product::class, 'category_id');
     }
 
-    public function variants() : BelongsToMany
+    public function variants(): BelongsToMany
     {
-        return $this->belongsToMany(ProductVariant::class,ProductCategoryVariant::class,'category_id','variant_id');
+        return $this->belongsToMany(ProductVariant::class, ProductCategoryVariant::class, 'category_id', 'variant_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
     }
 }
