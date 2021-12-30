@@ -40,22 +40,3 @@ Route::prefix('vendor-api')->group(function () {
     Route::post('place-order', 'OrderController@saveOrder')->name('save-order');
 
 });
-
-//Customer APIs
-Route::group(['prefix' => 'customer','as' => 'customer'], function () {
-    
-    // login user
-    Route::post('login-with-password',   'VendorsController@loginUserWithPassword')->name('login.user.password');
-    Route::post('login-with-otp',   'VendorsController@loginUserWithOtp')->name('login.user.otp');
-
-    //OTP
-    Route::post('send-otp',   'VendorsController@sendOtp')->name('send.otp');
-    Route::post('verify-otp',   'VendorsController@verifyOtp')->name('verify.otp');
-    
-    //Password Reset
-    Route::post('forgot-password',   'VendorsController@forgotPassword')->name('forgot.password');
-
-
-    //signup user
-    Route::post('user/create',   'VendorsController@userRegister')->name('register.user');
-});
