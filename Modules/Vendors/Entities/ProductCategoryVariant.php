@@ -19,7 +19,7 @@ class ProductCategoryVariant extends Model
         return ProductVariantFactory::new();
     }
 
-    public function variant_rel(){
+    public function variant(){
         return $this->belongsTo(ProductVariant::class, 'variant_id', 'id');
     }
 

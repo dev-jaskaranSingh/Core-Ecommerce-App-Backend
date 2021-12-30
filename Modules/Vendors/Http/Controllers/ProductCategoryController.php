@@ -23,7 +23,7 @@ class ProductCategoryController extends Controller
     {
 
         if (!$request->header('X-DB-Connection')) {
-            die('Required header files missing!');
+            die('Required header missing!');
         }
 
         try {
@@ -175,6 +175,29 @@ class ProductCategoryController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
-
+    }
+    public function getOnlyCategoryProducts($categoryId)
+    {
+        try {
+            $categoryModel = $this->productCategoryModal->where('id', $categoryId);
+            if (!$categoryModel->first()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Category not found!'
+                ], 200);
+            }
+            $categoryData = $categoryModel->first()
+            ->load('products', 'products.variant:id,title');
+            
+            return response()->json([
+                'status' => true,
+                'data' => $categoryData
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }   
     }
 }

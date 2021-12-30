@@ -32,6 +32,11 @@ class User extends Model
         return UserFactory::new();
     }
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(UserRole::class, 'role_id', 'id');

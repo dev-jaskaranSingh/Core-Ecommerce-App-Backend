@@ -11,6 +11,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $appends = ['category_name'];
+
+    protected $hidden = ['category', 'category_id', 'variant_id', 'deleted_at', 'status', 'updated_at'];
+
     protected $fillable = ['images', 'title', 'sale_price', 'purchase_price', 'description', 'unit', 'variant_id', 'category_id', 'status'];
 
     protected static function newFactory()
@@ -47,4 +51,10 @@ class Product extends Model
     {
         return json_decode($value, true);
     }
+    
+    public function getCategoryNameAttribute($value)
+    {
+        return $this->category->title;
+    }
+
 }

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Vendors\Entities\Product;
 use Modules\Vendors\Entities\Order;
+use Modules\Vendors\Entities\User;
+
 
 class OrderController extends Controller
 {

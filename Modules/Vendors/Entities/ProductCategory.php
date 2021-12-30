@@ -12,6 +12,7 @@ class ProductCategory extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['parent_id', 'status',  'deleted_at', 'updated_at'];
     protected $table = 'product_categories';
     protected $fillable = ['title', 'parent_id', 'status', 'units', 'description'];
 
